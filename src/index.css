@@ -1,0 +1,37 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@layer utilities {
+  .vscode-bg {
+    background-color: #1e1e1e;
+  }
+  .vscode-text {
+    color: #d4d4d4;
+  }
+}
+
+.prose pre {
+  background-color: #1e1e1e !important;
+  color: #d4d4d4 !important;
+  border: 1px solid #333;
+  border-radius: 0.5rem;
+}
+
+.prose code {
+  color: #ce9178;
+  background-color: rgba(30, 30, 30, 0.1);
+  padding: 0.2em 0.4em;
+  border-radius: 0.25rem;
+  font-weight: normal;
+}
+
+.dark .prose code {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.prose pre code {
+  color: #d4d4d4 !important;
+  background-color: transparent !important;
+  padding: 0;
+}
+
