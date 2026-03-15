@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Mail, Lock, User, Chrome } from 'lucide-react';
+import { X, Mail, Lock, User, Chrome, Snowflake } from 'lucide-react';
 import { auth, googleProvider, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInAnonymously } from '../firebase';
 
 interface LoginModalProps {
@@ -8,7 +8,7 @@ interface LoginModalProps {
 }
 
 export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
-  const [isSignUp, setIsSignUp] = useState(false);
+  const [isSignUp, setIsSignUp] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -59,7 +59,17 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
         </button>
 
         <div className="p-8">
-          <h2 className="text-2xl font-bold text-white mb-2 text-center">
+          <div className="text-center mb-6">
+            <div className="flex items-center justify-center space-x-2 mb-2">
+              <Snowflake className="w-8 h-8 text-[#007acc]" />
+              <span className="text-2xl font-bold text-white tracking-tight">IceCode</span>
+            </div>
+            <p className="text-[#888] text-sm">
+              코딩의 기초부터 실전까지, 차갑고 명확하게 배우는 프로그래밍 학습 플랫폼
+            </p>
+          </div>
+
+          <h2 className="text-xl font-bold text-white mb-2 text-center">
             {isSignUp ? '회원가입' : '로그인'}
           </h2>
           <p className="text-[#888] text-sm text-center mb-8">
