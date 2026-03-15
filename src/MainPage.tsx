@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Markdown from 'react-markdown';
+import DOMPurify from 'dompurify';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Code2, Terminal, BookOpen, Globe, ChevronRight, Menu, X, Play, Lightbulb, CheckCircle2, FileCode2, Frown, Lock, Snowflake, User, Crown, BarChart, LogOut, Type, Cpu, Hash } from 'lucide-react';
@@ -121,6 +122,23 @@ export default function MainPage() {
   const handleRunCode = () => {
     if (!quiz) return;
     
+    // Security check against injection attacks
+    const suspiciousKeywords = [
+      '<script>', 'eval(', 'document.cookie', 'window.', 'localStorage', 
+      'sessionStorage', 'XMLHttpRequest', 'exec(', 'system(', 'os.system',
+      '__proto__'
+    ];
+    
+    const lowerCode = code.toLowerCase();
+    const hasInjection = suspiciousKeywords.some(keyword => lowerCode.includes(keyword.toLowerCase()));
+    
+    if (hasInjection) {
+      setOutput('Security Error: Suspicious code detected. Injection attacks are blocked.');
+      setIsPassed(false);
+      setFeedbackMsg(siteLang === 'ko' ? '보안 경고: 인젝션 공격 등 의심스러운 코드가 감지되었습니다.' : 'Security Warning: Suspicious code such as injection attacks detected.');
+      return;
+    }
+
     const result = quiz.validate(code);
     
     if (result.isCheat) {
@@ -410,7 +428,7 @@ export default function MainPage() {
                   }
                 }}
               >
-                {content}
+                {DOMPurify.sanitize(content)}
               </Markdown>
             </div>
 
